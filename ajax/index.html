@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+用户名：<input type="text"  id="nameid" name="uname"  onchange="checkUser();"></input>
+<div id="msg"></div>
+<div id="status"></div>
+</body>
+</html>
+<script type="text/javascript">
+function createXmlHttpRequest(){
+	//alert(123);
+	var xhr=null;
+	xhr= new XMLHttpRequest();
+	return xhr;
+	//alert(xhr);
+	
+}
+function checkUser(){
+	
+	var name=document.getElementById("nameid").value;
+	//alert(name);
+	var xhr=createXmlHttpRequest();
+	xhr.open("post","checkUser.jsp",true);
+	
+	xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xhr.send("name",name);
+	//alert(name);
+	
+	xhr.onreadystatechange=function(){
+		if(xhr.readyState==4){
+			if(xhr.status==200||xhr.status==403){
+				
+				
+				var json=xhr.responseText;
+				var obj=eval("("+json+")");
+				document.getElementById("msg").innerHTML=obj.msg+"  code  "+obj.code;
+				
+				
+			}
+			
+			
+		}
+		//document.getElementById("status").innerHTML+=xhr.readyState +":"+xhr.status+"<br/>";
+			
+	}
+	
+	
+	
+}
+</script>
